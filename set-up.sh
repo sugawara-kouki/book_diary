@@ -25,7 +25,7 @@ fi
 
 # Prismaマイグレーションの実行
 log "Starting Prisma migration..."
-if npx prisma migrate dev --name init; then
+if npx prisma migrate dev; then
   log "Prisma migration completed successfully."
 else
   log "Prisma migration failed."
