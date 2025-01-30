@@ -1,6 +1,8 @@
 {
   "name": "Book Diary Development Container",
-  "image": "node:22.13.0",
+  "dockerComposeFile": "compose.yml",
+  "service": "app",
+  "workspaceFolder": "/app/",
   // "features": {
   //   "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   // },

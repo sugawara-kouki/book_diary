@@ -1,0 +1,16 @@
+# PostgreSQL関連のファイルを無視する
+db_data/
+*.sql
+*.sqlite
+*.dump
+*.log
+
+# 一時ファイルやキャッシュを無視する
+*.tmp
+*.temp
+*.bak
+*.swp
+
+# Node.jsの依存関係を無視する
+node_modules/
+npm-debug.log
