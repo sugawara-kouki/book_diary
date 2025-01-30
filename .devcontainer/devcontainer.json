@@ -6,7 +6,7 @@
   // "features": {
   //   "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   // },
-  // "postCreateCommand": "sh ./set-up.sh",
+  "postCreateCommand": "npm i",
   "customizations": {
     "vscode": {
       "extensions": [
