@@ -1,13 +1,15 @@
-"use client"
+'use client';
 
-import { Shell } from "@/components/layout/shell"
-import { BookCard } from "@/components/book-card"
+import { BookCard } from '@/components/book-card';
+import { Shell } from '@/components/layout/shell';
 
 export default function Home() {
   return (
     <Shell>
       <section>
-        <h2 className="font-heading text-2xl font-semibold mb-6">現在読んでいる本</h2>
+        <h2 className="font-heading text-2xl font-semibold mb-6">
+          現在読んでいる本
+        </h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <BookCard
             title="人間失格"
@@ -31,14 +33,18 @@ export default function Home() {
       </section>
 
       <section className="mt-12">
-        <h2 className="font-heading text-2xl font-semibold mb-6">最近の読書活動</h2>
+        <h2 className="font-heading text-2xl font-semibold mb-6">
+          最近の読書活動
+        </h2>
         {/* Reading activity summary component would go here */}
       </section>
 
       <section className="mt-12">
-        <h2 className="font-heading text-2xl font-semibold mb-6">おすすめの本</h2>
+        <h2 className="font-heading text-2xl font-semibold mb-6">
+          おすすめの本
+        </h2>
         {/* Recommended books component would go here */}
       </section>
     </Shell>
-  )
+  );
 }

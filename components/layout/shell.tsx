@@ -1,12 +1,12 @@
-"use client"
+'use client';
 
-import { MainNav } from "@/components/main-nav"
-import { Input } from "@/components/ui/input"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { BookOpen, Search } from "lucide-react"
+import { MainNav } from '@/components/main-nav';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Input } from '@/components/ui/input';
+import { BookOpen, Search } from 'lucide-react';
 
 interface ShellProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export function Shell({ children }: ShellProps) {
@@ -19,10 +19,16 @@ export function Shell({ children }: ShellProps) {
           <div className="flex items-center space-x-4 ml-auto">
             <div className="relative w-64">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="本を検索..." className="pl-8" />
+              <Input
+                placeholder="本を検索..."
+                className="pl-8"
+              />
             </div>
             <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" alt="ユーザー" />
+              <AvatarImage
+                src="https://github.com/shadcn.png"
+                alt="ユーザー"
+              />
               <AvatarFallback>ユ</AvatarFallback>
             </Avatar>
           </div>
@@ -33,10 +39,8 @@ export function Shell({ children }: ShellProps) {
         <aside className="hidden lg:block">
           <MainNav />
         </aside>
-        <main>
-          {children}
-        </main>
+        <main>{children}</main>
       </div>
     </div>
-  )
+  );
 }

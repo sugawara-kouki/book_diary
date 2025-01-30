@@ -1,8 +1,8 @@
-"use client"
+'use client';
 
 interface StatCardProps {
-  title: string
-  value: string
+  title: string;
+  value: string;
 }
 
 export function StatCard({ title, value }: StatCardProps) {
@@ -11,5 +11,5 @@ export function StatCard({ title, value }: StatCardProps) {
       <h3 className="text-sm font-medium text-muted-foreground">{title}</h3>
       <p className="text-2xl font-bold mt-2">{value}</p>
     </div>
-  )
+  );
 }

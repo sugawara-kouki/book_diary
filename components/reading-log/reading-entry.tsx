@@ -1,11 +1,11 @@
-"use client"
+'use client';
 
-import { Card } from "@/components/ui/card"
-import { Calendar as CalendarIcon } from "lucide-react"
+import { Card } from '@/components/ui/card';
+import { Calendar as CalendarIcon } from 'lucide-react';
 
 interface ReadingEntryProps {
-  date: string
-  content: string
+  date: string;
+  content: string;
 }
 
 export function ReadingEntry({ date, content }: ReadingEntryProps) {
@@ -17,5 +17,5 @@ export function ReadingEntry({ date, content }: ReadingEntryProps) {
       </div>
       <p>{content}</p>
     </Card>
-  )
+  );
 }

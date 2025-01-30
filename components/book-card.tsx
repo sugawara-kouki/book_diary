@@ -1,14 +1,14 @@
-"use client"
+'use client';
 
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
-import Image from "next/image"
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import Image from 'next/image';
 
 interface BookCardProps {
-  title: string
-  author: string
-  coverUrl: string
-  progress: number
+  title: string;
+  author: string;
+  coverUrl: string;
+  progress: number;
 }
 
 export function BookCard({ title, author, coverUrl, progress }: BookCardProps) {
@@ -26,15 +26,20 @@ export function BookCard({ title, author, coverUrl, progress }: BookCardProps) {
         </div>
       </CardHeader>
       <CardContent className="p-4">
-        <h3 className="font-heading text-lg font-semibold leading-tight">{title}</h3>
+        <h3 className="font-heading text-lg font-semibold leading-tight">
+          {title}
+        </h3>
         <p className="mt-1 text-sm text-muted-foreground">{author}</p>
         <div className="mt-4">
-          <Progress value={progress} className="h-2" />
+          <Progress
+            value={progress}
+            className="h-2"
+          />
           <p className="mt-1 text-xs text-muted-foreground text-right">
             {progress}% 完了
           </p>
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

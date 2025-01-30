@@ -1,28 +1,28 @@
-"use client"
+'use client';
 
-import { Shell } from "@/components/layout/shell"
-import { PageHeader } from "@/components/page-header"
-import { StatCard } from "@/components/stats/stat-card"
-import { Card } from "@/components/ui/card"
+import { Shell } from '@/components/layout/shell';
+import { PageHeader } from '@/components/page-header';
+import { StatCard } from '@/components/stats/stat-card';
+import { Card } from '@/components/ui/card';
 import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
   CartesianGrid,
+  Line,
+  LineChart,
+  ResponsiveContainer,
   Tooltip,
-  ResponsiveContainer
-} from "recharts"
+  XAxis,
+  YAxis
+} from 'recharts';
 
 const readingData = [
-  { date: "3/14", pages: 25 },
-  { date: "3/15", pages: 30 },
-  { date: "3/16", pages: 20 },
-  { date: "3/17", pages: 45 },
-  { date: "3/18", pages: 35 },
-  { date: "3/19", pages: 40 },
-  { date: "3/20", pages: 50 }
-]
+  { date: '3/14', pages: 25 },
+  { date: '3/15', pages: 30 },
+  { date: '3/16', pages: 20 },
+  { date: '3/17', pages: 45 },
+  { date: '3/18', pages: 35 },
+  { date: '3/19', pages: 40 },
+  { date: '3/20', pages: 50 }
+];
 
 export default function Statistics() {
   return (
@@ -34,16 +34,32 @@ export default function Statistics() {
         />
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatCard title="今月の読了数" value="3冊" />
-          <StatCard title="今月の読書時間" value="32時間" />
-          <StatCard title="今月の読書ページ数" value="845ページ" />
-          <StatCard title="連続読書日数" value="7日" />
+          <StatCard
+            title="今月の読了数"
+            value="3冊"
+          />
+          <StatCard
+            title="今月の読書時間"
+            value="32時間"
+          />
+          <StatCard
+            title="今月の読書ページ数"
+            value="845ページ"
+          />
+          <StatCard
+            title="連続読書日数"
+            value="7日"
+          />
         </div>
 
         <Card className="p-6">
-          <h2 className="font-heading text-xl font-semibold mb-6">1日あたりの読書ページ数</h2>
+          <h2 className="font-heading text-xl font-semibold mb-6">
+            1日あたりの読書ページ数
+          </h2>
           <div className="h-[300px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer
+              width="100%"
+              height="100%">
               <LineChart data={readingData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="date" />
@@ -62,7 +78,9 @@ export default function Statistics() {
 
         <div className="grid sm:grid-cols-2 gap-6">
           <Card className="p-6">
-            <h2 className="font-heading text-xl font-semibold mb-4">ジャンル別読書量</h2>
+            <h2 className="font-heading text-xl font-semibold mb-4">
+              ジャンル別読書量
+            </h2>
             <div className="space-y-4">
               <div>
                 <div className="flex justify-between text-sm mb-1">
@@ -104,7 +122,9 @@ export default function Statistics() {
           </Card>
 
           <Card className="p-6">
-            <h2 className="font-heading text-xl font-semibold mb-4">読書目標の進捗</h2>
+            <h2 className="font-heading text-xl font-semibold mb-4">
+              読書目標の進捗
+            </h2>
             <div className="space-y-6">
               <div>
                 <div className="flex justify-between text-sm mb-1">
@@ -129,5 +149,5 @@ export default function Statistics() {
         </div>
       </div>
     </Shell>
-  )
+  );
 }

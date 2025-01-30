@@ -1,17 +1,18 @@
-"use client"
+'use client';
 
-import { Card } from "@/components/ui/card"
-import { Textarea } from "@/components/ui/textarea"
-import { Button } from "@/components/ui/button"
-import { BookOpen, Clock } from "lucide-react"
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Textarea } from '@/components/ui/textarea';
+import { BookOpen, Clock } from 'lucide-react';
+import Image from 'next/image';
 
 interface CurrentBookProps {
-  title: string
-  author: string
-  coverUrl: string
-  currentPage: number
-  totalPages: number
-  readingTime: string
+  title: string;
+  author: string;
+  coverUrl: string;
+  currentPage: number;
+  totalPages: number;
+  readingTime: string;
 }
 
 export function CurrentBook({
@@ -27,7 +28,7 @@ export function CurrentBook({
       <div className="space-y-4">
         <div className="flex items-center gap-4">
           <div className="relative aspect-[3/4] w-20">
-            <img
+            <Image
               src={coverUrl}
               alt={title}
               className="object-cover rounded-md"
@@ -42,7 +43,9 @@ export function CurrentBook({
         <div className="grid sm:grid-cols-2 gap-4">
           <div className="flex items-center gap-2">
             <BookOpen className="h-4 w-4 text-muted-foreground" />
-            <span>現在のページ: {currentPage}/{totalPages}</span>
+            <span>
+              現在のページ: {currentPage}/{totalPages}
+            </span>
           </div>
           <div className="flex items-center gap-2">
             <Clock className="h-4 w-4 text-muted-foreground" />
@@ -61,5 +64,5 @@ export function CurrentBook({
         <Button className="w-full">記録を保存</Button>
       </div>
     </Card>
-  )
+  );
 }

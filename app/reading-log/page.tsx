@@ -1,11 +1,11 @@
-"use client"
+'use client';
 
-import { Shell } from "@/components/layout/shell"
-import { PageHeader } from "@/components/page-header"
-import { Calendar } from "@/components/ui/calendar"
-import { Card } from "@/components/ui/card"
-import { CurrentBook } from "@/components/reading-log/current-book"
-import { ReadingEntry } from "@/components/reading-log/reading-entry"
+import { Shell } from '@/components/layout/shell';
+import { PageHeader } from '@/components/page-header';
+import { CurrentBook } from '@/components/reading-log/current-book';
+import { ReadingEntry } from '@/components/reading-log/reading-entry';
+import { Calendar } from '@/components/ui/calendar';
+import { Card } from '@/components/ui/card';
 
 export default function ReadingLog() {
   return (
@@ -28,7 +28,9 @@ export default function ReadingLog() {
             />
 
             <div className="space-y-4">
-              <h2 className="font-heading text-2xl font-semibold">過去の記録</h2>
+              <h2 className="font-heading text-2xl font-semibold">
+                過去の記録
+              </h2>
               <div className="space-y-4">
                 <ReadingEntry
                   date="2024年3月20日"
@@ -57,5 +59,5 @@ export default function ReadingLog() {
         </div>
       </div>
     </Shell>
-  )
+  );
 }
