@@ -1,7 +1,7 @@
+import { BookOpen, Clock } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
 import { Textarea } from '../ui/textarea';
-import { BookOpen, Clock } from 'lucide-react';
 
 interface CurrentBookProps {
   title: string;
@@ -51,7 +51,11 @@ export function CurrentBook({
         </div>
 
         <div>
-          <label htmlFor="today-thoughts" className="text-sm font-medium mb-2 block">今日の感想</label>
+          <label
+            htmlFor="today-thoughts"
+            className="text-sm font-medium mb-2 block">
+            今日の感想
+          </label>
           <Textarea
             id="today-thoughts"
             placeholder="今日読んだ部分の感想や印象に残った箇所を記録しましょう..."

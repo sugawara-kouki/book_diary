@@ -1,5 +1,5 @@
-import { Card } from '../ui/card';
 import { Calendar as CalendarIcon } from 'lucide-react';
+import { Card } from '../ui/card';
 
 interface ReadingEntryProps {
   date: string;

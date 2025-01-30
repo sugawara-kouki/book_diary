@@ -1,17 +1,17 @@
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss';
 
 export default {
-	darkMode: ["class"],
-	content: ["./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}"],
-	theme: {
-		container: {
+  darkMode: ['class'],
+  content: ['./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}'],
+  theme: {
+    container: {
       center: true,
       padding: '2rem',
       screens: {
         '2xl': '1400px'
       }
     },
-		extend: {
+    extend: {
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -72,6 +72,6 @@ export default {
         'accordion-up': 'accordion-up 0.2s ease-out'
       }
     }
-    },
-	plugins: [require("tailwindcss-animate")],
+  },
+  plugins: [require('tailwindcss-animate')]
 } satisfies Config;

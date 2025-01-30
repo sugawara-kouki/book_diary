@@ -7,7 +7,7 @@ import { Lock, LogIn, Mail } from 'lucide-react';
 import { Link } from '@remix-run/react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import {zodResolver} from "@hookform/resolvers/zod"
+import { zodResolver } from '@hookform/resolvers/zod';
 
 const loginSchema = z.object({
   email: z.string().email('有効なメールアドレスを入力してください'),

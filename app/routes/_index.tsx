@@ -1,7 +1,7 @@
 'use client';
 
 import { BookCard } from '~/components/book-card';
-import { Shell } from '~/components/layout/shell'
+import { Shell } from '~/components/layout/shell';
 
 export default function Home() {
   return (

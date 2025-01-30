@@ -5,7 +5,7 @@ import { Link, useLocation } from '@remix-run/react';
 
 export function MainNav() {
   const location = useLocation();
-  const pathname = location.pathname
+  const pathname = location.pathname;
 
   const routes = [
     {

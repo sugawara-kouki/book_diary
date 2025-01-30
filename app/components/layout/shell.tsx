@@ -1,7 +1,7 @@
+import { BookOpen, Search } from 'lucide-react';
 import { MainNav } from '../main-nav';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Input } from '../ui/input';
-import { BookOpen, Search } from 'lucide-react';
 
 interface ShellProps {
   children: React.ReactNode;
