@@ -1,0 +1,30 @@
+{
+  "name": "Book Diary Development Container",
+  "image": "node:22.13.0",
+  // "features": {
+  //   "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  // },
+  // "postCreateCommand": "sh ./set-up.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-azuretools.vscode-docker",
+        "mhutchie.git-graph",
+        "PKief.material-icon-theme",
+        "vscode-icons-team.vscode-icons",
+        "bradlc.vscode-tailwindcss",
+        "Gruntfuggly.todo-tree",
+        "Prisma.prisma"
+      ],
+      "settings": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.organizeImports": "explicit"
+        }
+      }
+    }
+  }
+}
