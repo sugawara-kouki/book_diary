@@ -1,22 +1,18 @@
+'use client';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Link } from '@remix-run/react';
+import { Lock, LogIn, Mail } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { AuthShell } from '~/components/layout/auth-shell';
 import { Button } from '~/components/ui/button';
 import { Card } from '~/components/ui/card';
 import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
-import { Lock, LogIn, Mail } from 'lucide-react';
-import { Link } from '@remix-run/react';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { LoginFormData, loginSchema } from '~/types/auth';
 
-const loginSchema = z.object({
-  email: z.string().email('有効なメールアドレスを入力してください'),
-  password: z.string().min(8, 'パスワードは8文字以上で入力してください')
-});
-
-type LoginFormData = z.infer<typeof loginSchema>;
-
-export default function Login() {
+export default function LoginRoute() {
   const {
     register,
     handleSubmit,
@@ -26,14 +22,34 @@ export default function Login() {
     resolver: zodResolver(loginSchema),
     mode: 'onChange'
   });
+  const [serverError, setServerError] = useState<string | null>(null);
 
   const email = watch('email');
   const password = watch('password');
   const isButtonDisabled = !email || !password || !isValid;
 
+  useEffect(() => {
+    setServerError(null);
+  }, [email, password]);
+
   const onSubmit = async (data: LoginFormData) => {
-    // TODO: ログイン処理の実装
-    console.log(data);
+    const response = await fetch('/api/auth/signin', {
+      method: 'POST',
+      body: JSON.stringify({
+        email: data.email,
+        password: data.password
+      })
+    });
+
+    const resData = await response.json();
+
+    if (!response.ok) {
+      // エラーメッセージを抽出
+      setServerError(resData.message);
+      return;
+    }
+
+    console.log(resData);
   };
 
   return (
@@ -98,6 +114,14 @@ export default function Login() {
                   </p>
                 )}
               </div>
+
+              {serverError && (
+                <p
+                  id="server-error"
+                  className="text-sm text-destructive">
+                  {serverError}
+                </p>
+              )}
 
               <Button
                 type="submit"
