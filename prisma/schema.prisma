@@ -13,13 +13,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id         String   @id @default(uuid())  // UUID形式のユーザーID
-  email      String   @unique               // メールアドレス
-  password   String                         // ハッシュ化されたパスワード
-  name       String?                        // ユーザーの名前（オプション）
-  createdAt  DateTime @default(now())       // 作成日時
-  updatedAt  DateTime @updatedAt            // 更新日時
 
-  @@map("users") // DBのテーブル名を指定（オプション）
+model Book {
+  id  Int @id @default(autoincrement())
+  userID String
+  title String
+  author String
+  status String
+  readDate DateTime @default(now())
+  completedDate DateTime?
+  pageCount   Int?
+  currentPage Int?
 }

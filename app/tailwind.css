@@ -65,12 +65,17 @@ body {
   }
   body {
     @apply bg-background text-foreground antialiased;
-    font-feature-settings: "palt" 1;
+    font-feature-settings: 'palt' 1;
   }
   .font-heading {
     font-family: var(--font-noto-sans);
   }
   .font-sans {
     font-family: var(--font-noto-sans), sans-serif;
+  }
+  .required::after {
+    content: '*';
+    color: hsl(var(--destructive));
+    margin-left: 0.25rem;
   }
 }

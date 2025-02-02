@@ -1,7 +1,6 @@
-import { BookOpen, Search } from 'lucide-react';
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/remix';
+import { BookOpen } from 'lucide-react';
 import { MainNav } from '../main-nav';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { Input } from '../ui/input';
 
 interface ShellProps {
   children: React.ReactNode;
@@ -15,20 +14,20 @@ export function Shell({ children }: ShellProps) {
           <BookOpen className="mr-2 h-6 w-6" />
           <span className="font-heading text-xl font-semibold">読書ログ</span>
           <div className="flex items-center space-x-4 ml-auto">
-            <div className="relative w-64">
+            {/* TODO:: 後ほど実装予定 */}
+            {/* <div className="relative w-64">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="本を検索..."
                 className="pl-8"
               />
-            </div>
-            <Avatar>
-              <AvatarImage
-                src="https://github.com/shadcn.png"
-                alt="ユーザー"
-              />
-              <AvatarFallback>ユ</AvatarFallback>
-            </Avatar>
+            </div> */}
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+            <SignedOut>
+              <SignInButton mode="modal" />
+            </SignedOut>
           </div>
         </div>
       </header>

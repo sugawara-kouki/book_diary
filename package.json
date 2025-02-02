@@ -12,6 +12,7 @@
     "autoformat": "npx prettier --write '**/*.ts' '**/*.tsx'"
   },
   "dependencies": {
+    "@clerk/remix": "^4.4.19",
     "@hookform/resolvers": "^3.10.0",
     "@prisma/client": "^6.3.0",
     "@radix-ui/react-accordion": "^1.2.2",
@@ -44,7 +45,6 @@
     "@remix-run/node": "^2.15.2",
     "@remix-run/react": "^2.15.2",
     "@remix-run/serve": "^2.15.2",
-    "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
@@ -60,7 +60,6 @@
     "react-hook-form": "^7.54.2",
     "react-resizable-panels": "^2.1.7",
     "recharts": "^2.15.1",
-    "remix-auth": "^4.1.0",
     "sonner": "^1.7.3",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
@@ -69,7 +68,6 @@
   },
   "devDependencies": {
     "@remix-run/dev": "^2.15.2",
-    "@types/bcryptjs": "^2.4.6",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.7.4",

@@ -4,11 +4,16 @@ import { Progress } from './ui/progress';
 interface BookCardProps {
   title: string;
   author: string;
-  coverUrl: string;
-  progress: number;
+  coverUrl?: string;
+  progress?: number;
 }
 
-export function BookCard({ title, author, coverUrl, progress }: BookCardProps) {
+export function BookCard({
+  title,
+  author,
+  coverUrl = 'https://cdn.pixabay.com/photo/2016/11/21/16/09/bible-1846174_640.jpg',
+  progress = 0
+}: BookCardProps) {
   return (
     <Card className="overflow-hidden transition-all hover:shadow-lg">
       <CardHeader className="p-0">
