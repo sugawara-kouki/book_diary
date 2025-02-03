@@ -4,67 +4,18 @@ import { getAuth } from '@clerk/remix/ssr.server';
 import { PrismaClient, type Book } from '@prisma/client';
 import { ActionFunctionArgs, json, LoaderFunctionArgs } from '@remix-run/node';
 import { useActionData, useLoaderData } from '@remix-run/react';
+import { useEffect } from 'react';
+import { toast, Toaster } from 'sonner';
 import { BookCard } from '~/components/book-card';
 import { BookDrawer } from '~/components/book-drawer';
 import { Shell } from '~/components/layout/shell';
 import { PageHeader } from '~/components/page-header';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
 
-// const books = {
-//   reading: [
-//     {
-//       title: '人間失格',
-//       author: '太宰治',
-//       coverUrl:
-//         'https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=800',
-//       progress: 65
-//     },
-//     {
-//       title: 'こころ',
-//       author: '夏目漱石',
-//       coverUrl:
-//         'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=800',
-//       progress: 30
-//     }
-//   ],
-//   completed: [
-//     {
-//       title: '羅生門',
-//       author: '芥川龍之介',
-//       coverUrl:
-//         'https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=800',
-//       progress: 100
-//     },
-//     {
-//       title: '坊っちゃん',
-//       author: '夏目漱石',
-//       coverUrl:
-//         'https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=800',
-//       progress: 100
-//     }
-//   ],
-//   plan: [
-//     {
-//       title: '雪国',
-//       author: '川端康成',
-//       coverUrl:
-//         'https://images.unsplash.com/photo-1476275466078-4007374efbbe?q=80&w=800',
-//       progress: 0
-//     },
-//     {
-//       title: '銀河鉄道の夜',
-//       author: '宮沢賢治',
-//       coverUrl:
-//         'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=800',
-//       progress: 0
-//     }
-//   ]
-// };
-
-type GroupedBooks = {
-  [key: string]: Book[];
-};
-
+interface ActionDataType {
+  message: string;
+  book?: Book;
+}
 export const action = async (args: ActionFunctionArgs) => {
   const formData = await args.request.formData();
   const prisma = new PrismaClient();
@@ -75,11 +26,17 @@ export const action = async (args: ActionFunctionArgs) => {
   const { userId } = await getAuth(args);
 
   if (!userId) {
-    return json({ message: 'ログインしてください' }, { status: 401 });
+    return json(
+      { message: 'ログインをしなおして、再度お試しください。' },
+      { status: 401 }
+    );
   }
 
   if (!title || !author || !status) {
-    return json({ message: 'パラメータが不足しています。' }, { status: 400 });
+    return json(
+      { message: 'データ登録に必要なパラメータが不足しています。' },
+      { status: 400 }
+    );
   }
 
   // DBにデータを登録する
@@ -93,12 +50,15 @@ export const action = async (args: ActionFunctionArgs) => {
       }
     });
     return json(
-      { message: 'データが正常に作成されたお', book: newBook },
+      { message: 'データが正常に登録されました。', book: newBook },
       { status: 201 }
     );
   } catch (e) {
     console.error(e);
-    return json({ message: 'エラーが発生したお' }, { status: 500 });
+    return json(
+      { message: 'エラーが発生しました。再度登録をお試しください。' },
+      { status: 500 }
+    );
   }
 };
 
@@ -108,12 +68,15 @@ interface LoaderDataType {
     [key: string]: Book[];
   };
 }
+type GroupedBooks = {
+  [key: string]: Book[];
+};
 export const loader = async (args: LoaderFunctionArgs) => {
   const { userId } = await getAuth(args);
 
   if (!userId) {
     return json(
-      { message: 'ログインしていません。ログインをしてください。' },
+      { message: 'ログインをしなおして、再度お試しください。' },
       { status: 401 }
     );
   }
@@ -127,7 +90,10 @@ export const loader = async (args: LoaderFunctionArgs) => {
   });
 
   if (bookData.length < 1) {
-    return json({ message: 'データがありませんでした。' }, { status: 200 });
+    return json(
+      { message: '該当するデータが見つかりませんでした。' },
+      { status: 200 }
+    );
   }
 
   // 取得したデータをステータスごとに配列に格納
@@ -145,13 +111,23 @@ export const loader = async (args: LoaderFunctionArgs) => {
 };
 
 export default function Bookshelf() {
-  const actionData = useActionData<typeof action>();
+  const actionData = useActionData<ActionDataType>();
   const loaderData = useLoaderData<LoaderDataType>();
   const groupedBooks = loaderData?.groupedBooks || {};
 
+  useEffect(() => {
+    if (!actionData) {
+      return;
+    }
+
+    // 条件に応じて、void関数を変数に格納
+    const toastType = actionData.book ? toast.success : toast.error;
+    // エラーと正常時の使い分けを実現
+    toastType(actionData.message);
+  }, [actionData]);
+
   return (
     <Shell>
-      {actionData?.message && <p>{actionData?.message}</p>}
       <div className="space-y-8">
         <div className="flex items-center justify-between">
           <PageHeader
@@ -226,6 +202,10 @@ export default function Bookshelf() {
           </TabsContent>
         </Tabs>
       </div>
+      <Toaster
+        richColors
+        position="top-center"
+      />
     </Shell>
   );
 }
