@@ -1,130 +1,70 @@
 'use client';
 
 import { getAuth } from '@clerk/remix/ssr.server';
-import { PrismaClient, type Book } from '@prisma/client';
-import { ActionFunctionArgs, json, LoaderFunctionArgs } from '@remix-run/node';
-import { useActionData, useLoaderData } from '@remix-run/react';
-import { useEffect } from 'react';
-import { toast, Toaster } from 'sonner';
+import { LoaderFunctionArgs } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
+import { Toaster } from 'sonner';
 import { BookCard } from '~/components/book-card';
-import { BookDrawer } from '~/components/book-drawer';
+import { BookDrawer } from '~/components/book-drawer/book-drawer';
 import { Shell } from '~/components/layout/shell';
 import { PageHeader } from '~/components/page-header';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
+import prismaClient from '~/lib/prisma';
+import {
+  GroupedBookShelfApiResponse,
+  GroupedBooksType
+} from '~/types/api-response';
 
-interface ActionDataType {
-  message: string;
-  book?: Book;
-}
-export const action = async (args: ActionFunctionArgs) => {
-  const formData = await args.request.formData();
-  const prisma = new PrismaClient();
-
-  const title = formData.get('title') as string;
-  const author = formData.get('author') as string;
-  const status = formData.get('status') as string;
+export const loader = async (
+  args: LoaderFunctionArgs
+): Promise<GroupedBookShelfApiResponse> => {
   const { userId } = await getAuth(args);
-
   if (!userId) {
-    return json(
-      { message: 'ログインをしなおして、再度お試しください。' },
-      { status: 401 }
-    );
+    return {
+      statusCode: 401,
+      success: false,
+      error: 'ログインを行い、再度お試しください。'
+    };
   }
 
-  if (!title || !author || !status) {
-    return json(
-      { message: 'データ登録に必要なパラメータが不足しています。' },
-      { status: 400 }
-    );
-  }
-
-  // DBにデータを登録する
   try {
-    const newBook = await prisma.book.create({
-      data: {
-        title: title,
-        author: author,
-        status: status,
+    const bookData = await prismaClient.book.findMany({
+      where: {
         userID: userId
+      },
+      orderBy: {
+        readDate: 'desc'
       }
     });
-    return json(
-      { message: 'データが正常に登録されました。', book: newBook },
-      { status: 201 }
-    );
+
+    // 取得したデータをステータスごとに配列に格納
+    const groupedBooks: GroupedBooksType = bookData.reduce((acc, book) => {
+      // データのステータス値をキーとしたオブジェクト配列を作成
+      const status = book.status;
+      // acc[status]がundefinedの時にから配列を追加
+      acc[status] = acc[status] ?? [];
+      acc[status].push(book);
+      return acc;
+    }, {} as GroupedBooksType);
+
+    return {
+      statusCode: 200,
+      success: true,
+      data: groupedBooks
+    };
   } catch (e) {
     console.error(e);
-    return json(
-      { message: 'エラーが発生しました。再度登録をお試しください。' },
-      { status: 500 }
-    );
+    return {
+      statusCode: 500,
+      success: false,
+      error: 'エラーが発生しました。再度登録をお試しください。'
+    };
   }
-};
-
-interface LoaderDataType {
-  message: string;
-  groupedBooks?: {
-    [key: string]: Book[];
-  };
-}
-type GroupedBooks = {
-  [key: string]: Book[];
-};
-export const loader = async (args: LoaderFunctionArgs) => {
-  const { userId } = await getAuth(args);
-
-  if (!userId) {
-    return json(
-      { message: 'ログインをしなおして、再度お試しください。' },
-      { status: 401 }
-    );
-  }
-
-  const prisma = new PrismaClient();
-
-  const bookData = await prisma.book.findMany({
-    where: {
-      userID: userId
-    }
-  });
-
-  if (bookData.length < 1) {
-    return json(
-      { message: '該当するデータが見つかりませんでした。' },
-      { status: 200 }
-    );
-  }
-
-  // 取得したデータをステータスごとに配列に格納
-  const groupedBooks: GroupedBooks = bookData.reduce((acc, book) => {
-    const status = book.status;
-
-    if (!acc[status]) {
-      acc[status] = [];
-    }
-    acc[status].push(book);
-    return acc;
-  }, {} as GroupedBooks);
-
-  return json({ message: 'データ取得成功！', groupedBooks }, { status: 200 });
 };
 
 export default function Bookshelf() {
-  const actionData = useActionData<ActionDataType>();
-  const loaderData = useLoaderData<LoaderDataType>();
-  const groupedBooks = loaderData?.groupedBooks || {};
-
-  useEffect(() => {
-    if (!actionData) {
-      return;
-    }
-
-    // 条件に応じて、void関数を変数に格納
-    const toastType = actionData.book ? toast.success : toast.error;
-    // エラーと正常時の使い分けを実現
-    toastType(actionData.message);
-  }, [actionData]);
+  const loaderData = useLoaderData<typeof loader>();
+  const groupedBooks = loaderData?.data || {};
 
   return (
     <Shell>
@@ -152,6 +92,12 @@ export default function Bookshelf() {
             className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {Object.values(groupedBooks)
               .flat()
+              .sort((a, b) => {
+                const dateA = new Date(a.readDate);
+                const dateB = new Date(b.readDate);
+                // 日付順 DESC
+                return dateB.getTime() - dateA.getTime();
+              })
               .map((book, index) => (
                 <BookCard
                   key={index}
@@ -202,9 +148,11 @@ export default function Bookshelf() {
           </TabsContent>
         </Tabs>
       </div>
+
       <Toaster
         richColors
         position="top-center"
+        duration={5000}
       />
     </Shell>
   );

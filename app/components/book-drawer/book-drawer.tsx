@@ -1,10 +1,7 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Form } from '@remix-run/react';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { Button } from '~/components/ui/button';
 import {
   Drawer,
@@ -18,26 +15,19 @@ import {
 } from '~/components/ui/drawer';
 import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
-import { bookInputSchema, BookInputType } from '~/types/book';
+import useBookDrawerHook from './hook';
 
 export function BookDrawer() {
-  const {
-    register,
-    watch,
-    formState: { errors, isValid }
-  } = useForm<BookInputType>({
-    resolver: zodResolver(bookInputSchema),
-    mode: 'all'
-  });
-
-  const title = watch('title');
-  const author = watch('author');
-  const status = watch('status');
-  const isButtonDisabled = !title || !author || !status || !isValid;
-
   const [open, setOpen] = useState(false);
+  const {
+    errors,
+    fetcher,
+    isButtonDisabled,
+    register,
+    onSubmit,
+    handleSubmit
+  } = useBookDrawerHook();
 
-  // TODO::入力内容が残ってしまうのをどうにかする
   return (
     <Drawer
       open={open}
@@ -56,9 +46,9 @@ export function BookDrawer() {
               読みたい本や読んでいる本を追加しましょう
             </DrawerDescription>
           </DrawerHeader>
-          <Form
+          <fetcher.Form
             method="post"
-            action="/bookshelf">
+            onSubmit={handleSubmit(onSubmit)}>
             <div className="px-6 overflow-y-auto">
               <div className="space-y-2 pb-2">
                 <Label
@@ -145,7 +135,7 @@ export function BookDrawer() {
                 </Button>
               </DrawerClose>
             </DrawerFooter>
-          </Form>
+          </fetcher.Form>
         </div>
       </DrawerContent>
     </Drawer>
