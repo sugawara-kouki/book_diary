@@ -13,7 +13,6 @@ import {
   Scripts,
   ScrollRestoration
 } from '@remix-run/react';
-import { Toaster } from './components/ui/toaster';
 import './tailwind.css';
 
 export const meta: MetaFunction = () => {
@@ -55,7 +54,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
         {children}
         <ScrollRestoration />
         <Scripts />
-        <Toaster />
       </body>
     </html>
   );
