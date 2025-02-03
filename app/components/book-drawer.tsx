@@ -37,6 +37,7 @@ export function BookDrawer() {
 
   const [open, setOpen] = useState(false);
 
+  // TODO::入力内容が残ってしまうのをどうにかする
   return (
     <Drawer
       open={open}
@@ -133,7 +134,7 @@ export function BookDrawer() {
                 disabled={isButtonDisabled}
                 className="w-full sm:w-auto"
                 type="submit"
-                onClick={() => setOpen(!open)}>
+                onClick={() => setOpen(false)}>
                 追加する
               </Button>
               <DrawerClose asChild>
