@@ -37,7 +37,7 @@ export const loader = async (
       orderBy: {
         readDate: 'desc'
       },
-      // 最新の投稿6件
+      // 最新の投稿3件
       take: 3
     });
 
