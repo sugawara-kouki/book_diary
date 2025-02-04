@@ -118,6 +118,43 @@ export function BookDrawer() {
                   </p>
                 )}
               </div>
+
+              <div className="space-y-2">
+                <Label className="required">ページ数</Label>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="totalPage"
+                      className="text-sm text-muted-foreground">
+                      全ページ数
+                    </Label>
+                    <Input
+                      id="totalPage"
+                      type="text"
+                      inputMode="numeric"
+                      pattern="[1-9][0-9]*"
+                      placeholder="全ページ数"
+                      required
+                      aria-label="全ページ数を入力"
+                      aria-describedby={
+                        errors.totalPage ? 'totalPage-error' : undefined
+                      }
+                      {...register('totalPage')}
+                    />
+                    {errors.totalPage ? (
+                      <p
+                        id="totalPage-error"
+                        className="text-sm text-destructive">
+                        {errors.totalPage.message}
+                      </p>
+                    ) : (
+                      <p className="text-xs text-muted-foreground">
+                        1以上の整数を入力してください
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
             <DrawerFooter className="px-6 mt-4">
               <Button

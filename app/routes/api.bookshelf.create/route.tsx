@@ -2,6 +2,7 @@ import { getAuth } from '@clerk/remix/ssr.server';
 import { ActionFunction, ActionFunctionArgs } from '@remix-run/node';
 import prismaClient from '~/lib/prisma';
 import { BookShelfApiResponse } from '~/types/api-response';
+import { bookInputSchema } from '~/types/book';
 
 export const action: ActionFunction = async (
   args: ActionFunctionArgs
@@ -11,6 +12,7 @@ export const action: ActionFunction = async (
   const title = formData.get('title') as string;
   const author = formData.get('author') as string;
   const status = formData.get('status') as string;
+  const totalPage = formData.get('totalPage') as string;
   const { userId } = await getAuth(args);
 
   if (!userId) {
@@ -21,7 +23,13 @@ export const action: ActionFunction = async (
     };
   }
 
-  if (!title || !author || !status) {
+  const serverValidateResult = bookInputSchema.safeParse({
+    title,
+    author,
+    status,
+    totalPage
+  });
+  if (!serverValidateResult.success) {
     return {
       statusCode: 400,
       success: false,
@@ -33,10 +41,11 @@ export const action: ActionFunction = async (
   try {
     const newBook = await prismaClient.book.create({
       data: {
-        title: title,
-        author: author,
-        status: status,
-        userID: userId
+        userID: userId,
+        title: serverValidateResult.data.title,
+        author: serverValidateResult.data.author,
+        status: serverValidateResult.data.status,
+        pageCount: serverValidateResult.data.totalPage
       }
     });
     return {
