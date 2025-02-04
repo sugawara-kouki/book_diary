@@ -1,5 +1,3 @@
-'use client';
-
 import { Wrench } from 'lucide-react';
 import { Shell } from '~/components/layout/shell';
 import { PageHeader } from '~/components/page-header';

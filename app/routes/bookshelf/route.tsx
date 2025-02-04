@@ -1,5 +1,3 @@
-'use client';
-
 import { getAuth } from '@clerk/remix/ssr.server';
 import { LoaderFunctionArgs } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
