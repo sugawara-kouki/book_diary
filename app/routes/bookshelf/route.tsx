@@ -4,11 +4,11 @@ import { getAuth } from '@clerk/remix/ssr.server';
 import { LoaderFunctionArgs } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { Toaster } from 'sonner';
-import { BookCard } from '~/components/book-card';
 import { BookDrawer } from '~/components/book-drawer/book-drawer';
+import { BookTabsContent } from '~/components/book-tabs-content/book-tabs-content';
 import { Shell } from '~/components/layout/shell';
 import { PageHeader } from '~/components/page-header';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger } from '~/components/ui/tabs';
 import prismaClient from '~/lib/prisma';
 import {
   GroupedBookShelfApiResponse,
@@ -87,68 +87,40 @@ export default function Bookshelf() {
             <TabsTrigger value="plan">読みたい本</TabsTrigger>
           </TabsList>
 
-          <TabsContent
-            value="all"
-            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Object.values(groupedBooks)
+          {/* カテゴリ all */}
+          <BookTabsContent
+            tabsValue="all"
+            books={Object.values(groupedBooks)
               .flat()
               .sort((a, b) => {
                 const dateA = new Date(a.readDate);
                 const dateB = new Date(b.readDate);
                 // 日付順 DESC
                 return dateB.getTime() - dateA.getTime();
-              })
-              .map((book, index) => (
-                <BookCard
-                  key={index}
-                  title={book.title}
-                  author={book.author}
-                />
-              ))}
-          </TabsContent>
+              })}
+          />
 
-          <TabsContent
-            value="reading"
-            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {groupedBooks.reading &&
-              groupedBooks.reading.map((book, index) => (
-                <BookCard
-                  key={index}
-                  title={book.title}
-                  author={book.author}
-                />
-              ))}
-          </TabsContent>
+          {/* カテゴリ reading */}
+          <BookTabsContent
+            tabsValue="reading"
+            books={groupedBooks.reading}
+          />
 
-          <TabsContent
-            value="completed"
-            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {groupedBooks.completed &&
-              groupedBooks.completed.map((book, index) => (
-                <BookCard
-                  key={index}
-                  title={book.title}
-                  author={book.author}
-                  progress={100}
-                />
-              ))}
-          </TabsContent>
+          {/* カテゴリ completed */}
+          <BookTabsContent
+            tabsValue="completed"
+            books={groupedBooks.completed}
+          />
 
-          <TabsContent
-            value="plan"
-            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {groupedBooks.plan &&
-              groupedBooks.plan.map((book, index) => (
-                <BookCard
-                  key={index}
-                  title={book.title}
-                  author={book.author}
-                />
-              ))}
-          </TabsContent>
+          {/* カテゴリ plan */}
+          <BookTabsContent
+            tabsValue="plan"
+            books={groupedBooks.plan}
+          />
         </Tabs>
       </div>
 
+      {/* トースト */}
       <Toaster
         richColors
         position="top-center"
