@@ -37,14 +37,28 @@ interface BookShelfRouteActionResponse extends CommonRouteResponse<Book> {}
 /**
  * BookShelfルートのloader用レスポンスインターフェース
  */
+type BookShelfRouteLoaderBookDataType = {
+  title: string;
+  author: string;
+  status: string;
+  readDate: Date;
+  pageCount: number | null;
+  currentPage: number | null;
+};
+type BookShelfRouteLoaderBookAddProgressDataType =
+  BookShelfRouteLoaderBookDataType & {
+    progress: number;
+  };
 type BookShelfRouteLoaderResponseDataType = {
-  [key: string]: Book[];
+  [key: string]: BookShelfRouteLoaderBookDataType[];
 };
 interface BookShelfRouteLoaderResponse
   extends CommonRouteResponse<BookShelfRouteLoaderResponseDataType> {}
 
 export type {
   BookShelfRouteActionResponse,
+  BookShelfRouteLoaderBookAddProgressDataType,
+  BookShelfRouteLoaderBookDataType,
   BookShelfRouteLoaderResponse,
   BookShelfRouteLoaderResponseDataType,
   CommonRouteResponse,

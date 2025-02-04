@@ -32,28 +32,40 @@ export const loader = async (
       where: {
         userID: userId
       },
+      select: {
+        title: true,
+        author: true,
+        status: true,
+        pageCount: true,
+        currentPage: true,
+        readDate: true
+      },
       orderBy: {
         readDate: 'desc'
       }
     });
 
     // 取得したデータをステータスごとに配列に格納
-    const groupedBooks: BookShelfRouteLoaderResponseDataType = bookData.reduce(
-      (acc, book) => {
-        // データのステータス値をキーとしたオブジェクト配列を作成
-        const status = book.status;
-        // acc[status]がundefinedの時にから配列を追加
-        acc[status] = acc[status] ?? [];
-        acc[status].push(book);
-        return acc;
-      },
-      {} as BookShelfRouteLoaderResponseDataType
-    );
+    const groupedBooks = bookData.reduce((acc, book) => {
+      // データのステータス値をキーとしたオブジェクト配列を作成
+      const status = book.status;
+      // acc[status]がundefinedの時にから配列を追加
+      acc[status] = acc[status] ?? [];
+      acc[status].push(book);
+      return acc;
+    }, {} as BookShelfRouteLoaderResponseDataType);
 
+    // それぞれのキーごとに日付の降順でソート
+    const progressAddedGroupedBooks: BookShelfRouteLoaderResponseDataType = {};
+    Object.keys(groupedBooks).forEach((key) => {
+      progressAddedGroupedBooks[key] = groupedBooks[key].sort((a, b) => {
+        return b.readDate.getTime() - a.readDate.getTime();
+      });
+    });
     return {
       statusCode: 200,
       success: true,
-      data: groupedBooks
+      data: progressAddedGroupedBooks
     };
   } catch (e) {
     console.error(e);
@@ -96,10 +108,10 @@ export default function Bookshelf() {
             books={Object.values(groupedBooks)
               .flat()
               .sort((a, b) => {
-                const dateA = new Date(a.readDate);
-                const dateB = new Date(b.readDate);
                 // 日付順 DESC
-                return dateB.getTime() - dateA.getTime();
+                // ステータスごとに配列になっていたものを再結合しているため
+                // ソートも再度行う必要あり
+                return b.readDate.getTime() - a.readDate.getTime();
               })}
           />
 
