@@ -1,12 +1,12 @@
 import { getAuth } from '@clerk/remix/ssr.server';
 import { ActionFunction, ActionFunctionArgs } from '@remix-run/node';
 import prismaClient from '~/lib/prisma';
-import { BookShelfApiResponse } from '~/types/api-response';
+import { BookShelfRouteActionResponse } from '~/types/api-response';
 import { bookInputSchema } from '~/types/book';
 
 export const action: ActionFunction = async (
   args: ActionFunctionArgs
-): Promise<BookShelfApiResponse> => {
+): Promise<BookShelfRouteActionResponse> => {
   const formData = await args.request.formData();
 
   const title = formData.get('title') as string;

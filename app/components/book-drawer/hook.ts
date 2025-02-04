@@ -3,11 +3,11 @@ import { useFetcher } from '@remix-run/react';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { BookShelfApiResponse } from '~/types/api-response';
+import { BookShelfRouteActionResponse } from '~/types/api-response';
 import { BookInputType, bookInputSchema } from '~/types/book';
 
 const useBookDrawerHook = () => {
-  const fetcher = useFetcher<BookShelfApiResponse>();
+  const fetcher = useFetcher<BookShelfRouteActionResponse>();
   const {
     register,
     watch,
@@ -28,7 +28,7 @@ const useBookDrawerHook = () => {
     // データ登録ルートにpost
     await fetcher.submit(submitData, {
       method: 'post',
-      action: '/api/bookshelf/create'
+      action: '/api/book/create'
     });
     // フォームをリセット
     reset();
