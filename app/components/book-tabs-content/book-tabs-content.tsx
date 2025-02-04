@@ -3,18 +3,16 @@ import { TabsContent } from '@radix-ui/react-tabs';
 import { BookCard } from '../book-card';
 
 type BookTabContentProps = {
-  books: Book[];
+  books: Book[] | undefined;
   tabsValue: 'all' | 'reading' | 'completed' | 'plan';
 };
 
 export const BookTabsContent = ({ books, tabsValue }: BookTabContentProps) => {
-  const isShowBooks = books.length > 0;
-
   return (
     <TabsContent
       value={tabsValue}
       className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {isShowBooks ? (
+      {books && books.length > 0 ? (
         books.map((book, index) => (
           <BookCard
             key={index}
@@ -25,7 +23,7 @@ export const BookTabsContent = ({ books, tabsValue }: BookTabContentProps) => {
           />
         ))
       ) : (
-        <p>該当するデータがありません。</p>
+        <p>該当するデータがありませんでした。</p>
       )}
     </TabsContent>
   );

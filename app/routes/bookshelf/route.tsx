@@ -11,13 +11,13 @@ import { PageHeader } from '~/components/page-header';
 import { Tabs, TabsList, TabsTrigger } from '~/components/ui/tabs';
 import prismaClient from '~/lib/prisma';
 import {
-  GroupedBookShelfApiResponse,
-  GroupedBooksType
+  BookShelfRouteLoaderResponse,
+  BookShelfRouteLoaderResponseDataType
 } from '~/types/api-response';
 
 export const loader = async (
   args: LoaderFunctionArgs
-): Promise<GroupedBookShelfApiResponse> => {
+): Promise<BookShelfRouteLoaderResponse> => {
   const { userId } = await getAuth(args);
   if (!userId) {
     return {
@@ -38,14 +38,17 @@ export const loader = async (
     });
 
     // 取得したデータをステータスごとに配列に格納
-    const groupedBooks: GroupedBooksType = bookData.reduce((acc, book) => {
-      // データのステータス値をキーとしたオブジェクト配列を作成
-      const status = book.status;
-      // acc[status]がundefinedの時にから配列を追加
-      acc[status] = acc[status] ?? [];
-      acc[status].push(book);
-      return acc;
-    }, {} as GroupedBooksType);
+    const groupedBooks: BookShelfRouteLoaderResponseDataType = bookData.reduce(
+      (acc, book) => {
+        // データのステータス値をキーとしたオブジェクト配列を作成
+        const status = book.status;
+        // acc[status]がundefinedの時にから配列を追加
+        acc[status] = acc[status] ?? [];
+        acc[status].push(book);
+        return acc;
+      },
+      {} as BookShelfRouteLoaderResponseDataType
+    );
 
     return {
       statusCode: 200,

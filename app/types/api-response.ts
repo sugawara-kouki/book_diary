@@ -1,9 +1,9 @@
 import { Book } from '@prisma/client';
-
+// TODO:: 命名とか見直すべきです
 /**
  * APIレスポンスデータの基底インターフェース
  */
-interface CommonApiResponse<T> {
+interface CommonRouteResponse<T> {
   success: boolean;
   data?: T;
   error?: string;
@@ -11,22 +11,44 @@ interface CommonApiResponse<T> {
 }
 
 /**
+ * Homeルートのloader用レスポンスインターフェース
+ */
+type HomeRouteLoaderBookDataType = {
+  title: string;
+  author: string;
+  pageCount: number | null;
+  currentPage: number | null;
+};
+type HomeRouteLoaderBookAddProgressDataType = HomeRouteLoaderBookDataType & {
+  progress: number;
+};
+type HomeRouteLoaderResponseDataType = {
+  latestBooks: HomeRouteLoaderBookAddProgressDataType[];
+  otherBooks: HomeRouteLoaderBookAddProgressDataType[];
+};
+interface HomeRouteLoaderResponse
+  extends CommonRouteResponse<HomeRouteLoaderResponseDataType> {}
+
+/**
  * BookShelfルートのaction用レスポンスインターフェース
  */
-interface BookShelfApiResponse extends CommonApiResponse<Book> {}
+interface BookShelfRouteActionResponse extends CommonRouteResponse<Book> {}
 
 /**
  * BookShelfルートのloader用レスポンスインターフェース
  */
-type GroupedBooksType = {
+type BookShelfRouteLoaderResponseDataType = {
   [key: string]: Book[];
 };
-interface GroupedBookShelfApiResponse
-  extends CommonApiResponse<GroupedBooksType> {}
+interface BookShelfRouteLoaderResponse
+  extends CommonRouteResponse<BookShelfRouteLoaderResponseDataType> {}
 
 export type {
-  BookShelfApiResponse,
-  CommonApiResponse,
-  GroupedBookShelfApiResponse,
-  GroupedBooksType
+  BookShelfRouteActionResponse,
+  BookShelfRouteLoaderResponse,
+  BookShelfRouteLoaderResponseDataType,
+  CommonRouteResponse,
+  HomeRouteLoaderBookAddProgressDataType,
+  HomeRouteLoaderBookDataType,
+  HomeRouteLoaderResponse
 };
