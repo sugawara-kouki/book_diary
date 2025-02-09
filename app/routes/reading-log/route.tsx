@@ -1,9 +1,6 @@
 import { Shell } from '~/components/layout/shell';
 import { PageHeader } from '~/components/page-header';
-import { CurrentBook } from '~/components/reading-log/current-book';
-import { ReadingEntry } from '~/components/reading-log/reading-entry';
-import { Calendar } from '~/components/ui/calendar';
-import { Card } from '~/components/ui/card';
+import UnderConstruction from '~/components/under-construction';
 
 export default function ReadingLog() {
   return (
@@ -14,7 +11,10 @@ export default function ReadingLog() {
           description="日々の読書の記録と振り返り"
         />
 
-        <div className="grid lg:grid-cols-[1fr_300px] gap-8">
+        {/* 開発中コンポーネントを表示 */}
+        <UnderConstruction />
+
+        {/* <div className="grid lg:grid-cols-[1fr_300px] gap-8">
           <div className="space-y-6">
             <CurrentBook
               title="人間失格"
@@ -54,7 +54,7 @@ export default function ReadingLog() {
               />
             </Card>
           </div>
-        </div>
+        </div> */}
       </div>
     </Shell>
   );

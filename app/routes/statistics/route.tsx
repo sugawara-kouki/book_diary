@@ -1,8 +1,6 @@
-import { Wrench } from 'lucide-react';
 import { Shell } from '~/components/layout/shell';
 import { PageHeader } from '~/components/page-header';
-import { Card } from '~/components/ui/card';
-import { Skeleton } from '~/components/ui/skeleton';
+import UnderConstruction from '~/components/under-construction';
 
 export default function Statistics() {
   return (
@@ -13,14 +11,10 @@ export default function Statistics() {
           description="あなたの読書活動の分析"
         />
 
-        <Card className="p-6 bg-muted/50">
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <Wrench className="h-5 w-5" />
-            <p>この機能は現在開発中です。もうしばらくお待ちください。</p>
-          </div>
-        </Card>
+        {/* 開発中コンポーネントを表示 */}
+        <UnderConstruction />
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {Array.from({ length: 4 }).map((_, i) => (
             <Card
               key={i}
@@ -29,14 +23,14 @@ export default function Statistics() {
               <Skeleton className="h-8 w-16" />
             </Card>
           ))}
-        </div>
+        </div> */}
 
-        <Card className="p-6 space-y-4">
+        {/* <Card className="p-6 space-y-4">
           <Skeleton className="h-6 w-48" />
           <Skeleton className="h-[300px] w-full" />
-        </Card>
+        </Card> */}
 
-        <div className="grid sm:grid-cols-2 gap-6">
+        {/* <div className="grid sm:grid-cols-2 gap-6">
           <Card className="p-6 space-y-4">
             <Skeleton className="h-6 w-32" />
             <div className="space-y-2">
@@ -69,7 +63,7 @@ export default function Statistics() {
               ))}
             </div>
           </Card>
-        </div>
+        </div> */}
       </div>
     </Shell>
   );
